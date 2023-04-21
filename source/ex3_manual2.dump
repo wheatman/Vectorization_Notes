@@ -1,0 +1,56 @@
+Dump of assembler code for function Decode:
+ex3c.c:
+24	decode_return Decode(const uint8_t *loc) {
+   0x00000000000015d0 <+0>:	f3 0f 1e fa	endbr64 
+
+25	  decode_return ret;
+26	  // once again special case the first byte
+27	  if ((*loc & 0x80UL) == 0) {
+   0x00000000000015d4 <+4>:	0f b6 07	movzbl (%rdi),%eax
+   0x00000000000015d7 <+7>:	84 c0	test   %al,%al
+   0x00000000000015d9 <+9>:	79 45	jns    0x1620 <Decode+80>
+
+31	  }
+32	  // load the next 64 bits of data which is big enough to always contain the next compressed difference
+33	  uint64_t chunks = load64(loc);
+   0x00000000000015db <+11>:	48 8b 07	mov    (%rdi),%rax
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/bmi2intrin.h:
+78	  return __builtin_ia32_pext_di (__X, __Y);
+   0x00000000000015de <+14>:	48 ba 80 80 80 80 80 80 80 80	movabs $0x8080808080808080,%rdx
+   0x00000000000015e8 <+24>:	c4 e2 fa f5 d2	pext   %rdx,%rax,%rdx
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/bmiintrin.h:
+168	  return __builtin_ia32_tzcnt_u64 (__X);
+   0x00000000000015ed <+29>:	48 f7 d2	not    %rdx
+   0x00000000000015f0 <+32>:	f3 48 0f bc d2	tzcnt  %rdx,%rdx
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/bmi2intrin.h:
+78	  return __builtin_ia32_pext_di (__X, __Y);
+   0x00000000000015f5 <+37>:	48 b9 7f 7f 7f 7f 7f 7f 7f 7f	movabs $0x7f7f7f7f7f7f7f7f,%rcx
+   0x00000000000015ff <+47>:	48 63 f2	movslq %edx,%rsi
+   0x0000000000001602 <+50>:	c4 e2 fa f5 c1	pext   %rcx,%rax,%rax
+
+ex3c.c:
+46	  uint64_t difference = data_bits & extract_masks2[index];
+   0x0000000000001607 <+55>:	ff c2	inc    %edx
+   0x0000000000001609 <+57>:	48 8d 0d b0 0a 00 00	lea    0xab0(%rip),%rcx        # 0x20c0 <extract_masks2>
+   0x0000000000001610 <+64>:	48 23 04 f1	and    (%rcx,%rsi,8),%rax
+
+47	  ret.difference = difference;
+48	  ret.old_size = index+1;
+   0x0000000000001614 <+68>:	48 63 d2	movslq %edx,%rdx
+
+49	
+50	  return ret;
+   0x0000000000001617 <+71>:	c3	retq   
+   0x0000000000001618 <+72>:	0f 1f 84 00 00 00 00 00	nopl   0x0(%rax,%rax,1)
+
+28	    ret.old_size = *loc > 0;
+   0x0000000000001620 <+80>:	0f 95 c2	setne  %dl
+   0x0000000000001623 <+83>:	0f b6 d2	movzbl %dl,%edx
+
+29	    ret.difference = *loc;
+30	    return ret;
+   0x0000000000001626 <+86>:	c3	retq   
+End of assembler dump.

@@ -1,0 +1,32 @@
+Dump of assembler code for function count_pairs:
+ex2a.c:
+7	count_pairs(uint8_t *data, uint64_t size, uint8_t target) {
+   0x0000000000001620 <+0>:	f3 0f 1e fa	endbr64 
+
+8	  uint64_t total = 0;
+9	  uint16_t check = target | (target << 8U);
+   0x0000000000001624 <+4>:	89 d1	mov    %edx,%ecx
+   0x0000000000001626 <+6>:	c1 e1 08	shl    $0x8,%ecx
+   0x0000000000001629 <+9>:	0f b6 d2	movzbl %dl,%edx
+   0x000000000000162c <+12>:	09 d1	or     %edx,%ecx
+
+10	  for (uint64_t i = 0; i < size * 2 - 1; i++) {
+   0x000000000000162e <+14>:	48 8d 74 77 ff	lea    -0x1(%rdi,%rsi,2),%rsi
+   0x0000000000001633 <+19>:	31 c0	xor    %eax,%eax
+   0x0000000000001635 <+21>:	0f 1f 00	nopl   (%rax)
+
+11	    total += (load16(data + i) == check);
+   0x0000000000001638 <+24>:	31 d2	xor    %edx,%edx
+   0x000000000000163a <+26>:	66 39 0f	cmp    %cx,(%rdi)
+   0x000000000000163d <+29>:	0f 94 c2	sete   %dl
+   0x0000000000001640 <+32>:	48 ff c7	inc    %rdi
+   0x0000000000001643 <+35>:	48 01 d0	add    %rdx,%rax
+
+10	  for (uint64_t i = 0; i < size * 2 - 1; i++) {
+   0x0000000000001646 <+38>:	48 39 fe	cmp    %rdi,%rsi
+   0x0000000000001649 <+41>:	75 ed	jne    0x1638 <count_pairs+24>
+
+12	  }
+13	  return total;
+   0x000000000000164b <+43>:	c3	retq   
+End of assembler dump.

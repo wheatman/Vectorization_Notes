@@ -1,0 +1,50 @@
+Dump of assembler code for function count_pairs:
+ex1a.c:
+7	count_pairs(uint16_t *data, uint64_t size, uint8_t target) {
+   0x0000000000001567 <+0>:	f3 0f 1e fa	endbr64 
+   0x000000000000156b <+4>:	55	push   %rbp
+   0x000000000000156c <+5>:	48 89 e5	mov    %rsp,%rbp
+   0x000000000000156f <+8>:	48 89 7d d8	mov    %rdi,-0x28(%rbp)
+   0x0000000000001573 <+12>:	48 89 75 d0	mov    %rsi,-0x30(%rbp)
+   0x0000000000001577 <+16>:	89 d0	mov    %edx,%eax
+   0x0000000000001579 <+18>:	88 45 cc	mov    %al,-0x34(%rbp)
+
+8	  uint64_t total = 0;
+   0x000000000000157c <+21>:	48 c7 45 f0 00 00 00 00	movq   $0x0,-0x10(%rbp)
+
+9	  uint16_t check = target | (target << 8U);
+   0x0000000000001584 <+29>:	0f b6 55 cc	movzbl -0x34(%rbp),%edx
+   0x0000000000001588 <+33>:	0f b6 45 cc	movzbl -0x34(%rbp),%eax
+   0x000000000000158c <+37>:	c1 e0 08	shl    $0x8,%eax
+   0x000000000000158f <+40>:	09 d0	or     %edx,%eax
+   0x0000000000001591 <+42>:	66 89 45 ee	mov    %ax,-0x12(%rbp)
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x0000000000001595 <+46>:	48 c7 45 f8 00 00 00 00	movq   $0x0,-0x8(%rbp)
+   0x000000000000159d <+54>:	eb 25	jmp    0x15c4 <count_pairs+93>
+
+11	    total += (data[i] == check);
+   0x000000000000159f <+56>:	48 8b 45 f8	mov    -0x8(%rbp),%rax
+   0x00000000000015a3 <+60>:	48 8d 14 00	lea    (%rax,%rax,1),%rdx
+   0x00000000000015a7 <+64>:	48 8b 45 d8	mov    -0x28(%rbp),%rax
+   0x00000000000015ab <+68>:	48 01 d0	add    %rdx,%rax
+   0x00000000000015ae <+71>:	0f b7 00	movzwl (%rax),%eax
+   0x00000000000015b1 <+74>:	66 39 45 ee	cmp    %ax,-0x12(%rbp)
+   0x00000000000015b5 <+78>:	0f 94 c0	sete   %al
+   0x00000000000015b8 <+81>:	0f b6 c0	movzbl %al,%eax
+   0x00000000000015bb <+84>:	48 01 45 f0	add    %rax,-0x10(%rbp)
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x00000000000015bf <+88>:	48 83 45 f8 01	addq   $0x1,-0x8(%rbp)
+   0x00000000000015c4 <+93>:	48 8b 45 f8	mov    -0x8(%rbp),%rax
+   0x00000000000015c8 <+97>:	48 3b 45 d0	cmp    -0x30(%rbp),%rax
+   0x00000000000015cc <+101>:	72 d1	jb     0x159f <count_pairs+56>
+
+12	  }
+13	  return total;
+   0x00000000000015ce <+103>:	48 8b 45 f0	mov    -0x10(%rbp),%rax
+
+14	}
+   0x00000000000015d2 <+107>:	5d	pop    %rbp
+   0x00000000000015d3 <+108>:	c3	retq   
+End of assembler dump.

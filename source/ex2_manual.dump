@@ -1,0 +1,483 @@
+Dump of assembler code for function count_pairs:
+ex2b.c:
+8	count_pairs(uint8_t *data, uint64_t size, uint8_t target) {
+   0x0000000000001620 <+0>:	f3 0f 1e fa	endbr64 
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/avxintrin.h:
+1342	  return _mm256_set_epi8 (__A, __A, __A, __A, __A, __A, __A, __A,
+   0x0000000000001624 <+4>:	48 01 f6	add    %rsi,%rsi
+   0x0000000000001627 <+7>:	49 89 f8	mov    %rdi,%r8
+   0x000000000000162a <+10>:	62 f2 7d 28 7a ca	vpbroadcastb %edx,%ymm1
+
+ex2b.c:
+12	  for (uint64_t i = 0; i < size * 2; i += 32) {
+   0x0000000000001630 <+16>:	49 89 f1	mov    %rsi,%r9
+   0x0000000000001633 <+19>:	74 63	je     0x1698 <count_pairs+120>
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/avx2intrin.h:
+233	  return (__m256i) ((__v32qi)__A == (__v32qi)__B);
+   0x0000000000001635 <+21>:	c5 f5 74 07	vpcmpeqb (%rdi),%ymm1,%ymm0
+
+234	}
+235	
+236	extern __inline __m256i
+237	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+238	_mm256_cmpeq_epi16 (__m256i __A, __m256i __B)
+239	{
+240	  return (__m256i) ((__v16hi)__A == (__v16hi)__B);
+241	}
+242	
+243	extern __inline __m256i
+244	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+245	_mm256_cmpeq_epi32 (__m256i __A, __m256i __B)
+246	{
+247	  return (__m256i) ((__v8si)__A == (__v8si)__B);
+248	}
+249	
+250	extern __inline __m256i
+251	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+252	_mm256_cmpeq_epi64 (__m256i __A, __m256i __B)
+253	{
+254	  return (__m256i) ((__v4di)__A == (__v4di)__B);
+255	}
+256	
+257	extern __inline __m256i
+258	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+259	_mm256_cmpgt_epi8 (__m256i __A, __m256i __B)
+260	{
+261	  return (__m256i) ((__v32qs)__A > (__v32qs)__B);
+262	}
+263	
+264	extern __inline __m256i
+265	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+266	_mm256_cmpgt_epi16 (__m256i __A, __m256i __B)
+267	{
+268	  return (__m256i) ((__v16hi)__A > (__v16hi)__B);
+269	}
+270	
+271	extern __inline __m256i
+272	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+273	_mm256_cmpgt_epi32 (__m256i __A, __m256i __B)
+274	{
+275	  return (__m256i) ((__v8si)__A > (__v8si)__B);
+276	}
+277	
+278	extern __inline __m256i
+279	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+280	_mm256_cmpgt_epi64 (__m256i __A, __m256i __B)
+281	{
+282	  return (__m256i) ((__v4di)__A > (__v4di)__B);
+283	}
+284	
+285	extern __inline __m256i
+286	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+287	_mm256_hadd_epi16 (__m256i __X, __m256i __Y)
+288	{
+289	  return (__m256i) __builtin_ia32_phaddw256 ((__v16hi)__X,
+290						     (__v16hi)__Y);
+291	}
+292	
+293	extern __inline __m256i
+294	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+295	_mm256_hadd_epi32 (__m256i __X, __m256i __Y)
+296	{
+297	  return (__m256i) __builtin_ia32_phaddd256 ((__v8si)__X, (__v8si)__Y);
+298	}
+299	
+300	extern __inline __m256i
+301	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+302	_mm256_hadds_epi16 (__m256i __X, __m256i __Y)
+303	{
+304	  return (__m256i) __builtin_ia32_phaddsw256 ((__v16hi)__X,
+305						      (__v16hi)__Y);
+306	}
+307	
+308	extern __inline __m256i
+309	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+310	_mm256_hsub_epi16 (__m256i __X, __m256i __Y)
+311	{
+312	  return (__m256i) __builtin_ia32_phsubw256 ((__v16hi)__X,
+313						     (__v16hi)__Y);
+314	}
+315	
+316	extern __inline __m256i
+317	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+318	_mm256_hsub_epi32 (__m256i __X, __m256i __Y)
+319	{
+320	  return (__m256i) __builtin_ia32_phsubd256 ((__v8si)__X, (__v8si)__Y);
+321	}
+322	
+323	extern __inline __m256i
+324	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+325	_mm256_hsubs_epi16 (__m256i __X, __m256i __Y)
+326	{
+327	  return (__m256i) __builtin_ia32_phsubsw256 ((__v16hi)__X,
+328						      (__v16hi)__Y);
+329	}
+330	
+331	extern __inline __m256i
+332	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+333	_mm256_maddubs_epi16 (__m256i __X, __m256i __Y)
+334	{
+335	  return (__m256i) __builtin_ia32_pmaddubsw256 ((__v32qi)__X,
+336							(__v32qi)__Y);
+337	}
+338	
+339	extern __inline __m256i
+340	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+341	_mm256_madd_epi16 (__m256i __A, __m256i __B)
+342	{
+343	  return (__m256i)__builtin_ia32_pmaddwd256 ((__v16hi)__A,
+344						     (__v16hi)__B);
+345	}
+346	
+347	extern __inline __m256i
+348	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+349	_mm256_max_epi8 (__m256i __A, __m256i __B)
+350	{
+351	  return (__m256i)__builtin_ia32_pmaxsb256 ((__v32qi)__A, (__v32qi)__B);
+352	}
+353	
+354	extern __inline __m256i
+355	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+356	_mm256_max_epi16 (__m256i __A, __m256i __B)
+357	{
+358	  return (__m256i)__builtin_ia32_pmaxsw256 ((__v16hi)__A, (__v16hi)__B);
+359	}
+360	
+361	extern __inline __m256i
+362	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+363	_mm256_max_epi32 (__m256i __A, __m256i __B)
+364	{
+365	  return (__m256i)__builtin_ia32_pmaxsd256 ((__v8si)__A, (__v8si)__B);
+366	}
+367	
+368	extern __inline __m256i
+369	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+370	_mm256_max_epu8 (__m256i __A, __m256i __B)
+371	{
+372	  return (__m256i)__builtin_ia32_pmaxub256 ((__v32qi)__A, (__v32qi)__B);
+373	}
+374	
+375	extern __inline __m256i
+376	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+377	_mm256_max_epu16 (__m256i __A, __m256i __B)
+378	{
+379	  return (__m256i)__builtin_ia32_pmaxuw256 ((__v16hi)__A, (__v16hi)__B);
+380	}
+381	
+382	extern __inline __m256i
+383	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+384	_mm256_max_epu32 (__m256i __A, __m256i __B)
+385	{
+386	  return (__m256i)__builtin_ia32_pmaxud256 ((__v8si)__A, (__v8si)__B);
+387	}
+388	
+389	extern __inline __m256i
+390	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+391	_mm256_min_epi8 (__m256i __A, __m256i __B)
+392	{
+393	  return (__m256i)__builtin_ia32_pminsb256 ((__v32qi)__A, (__v32qi)__B);
+394	}
+395	
+396	extern __inline __m256i
+397	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+398	_mm256_min_epi16 (__m256i __A, __m256i __B)
+399	{
+400	  return (__m256i)__builtin_ia32_pminsw256 ((__v16hi)__A, (__v16hi)__B);
+401	}
+402	
+403	extern __inline __m256i
+404	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+405	_mm256_min_epi32 (__m256i __A, __m256i __B)
+406	{
+407	  return (__m256i)__builtin_ia32_pminsd256 ((__v8si)__A, (__v8si)__B);
+408	}
+409	
+410	extern __inline __m256i
+411	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+412	_mm256_min_epu8 (__m256i __A, __m256i __B)
+413	{
+414	  return (__m256i)__builtin_ia32_pminub256 ((__v32qi)__A, (__v32qi)__B);
+415	}
+416	
+417	extern __inline __m256i
+418	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+419	_mm256_min_epu16 (__m256i __A, __m256i __B)
+420	{
+421	  return (__m256i)__builtin_ia32_pminuw256 ((__v16hi)__A, (__v16hi)__B);
+422	}
+423	
+424	extern __inline __m256i
+425	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+426	_mm256_min_epu32 (__m256i __A, __m256i __B)
+427	{
+428	  return (__m256i)__builtin_ia32_pminud256 ((__v8si)__A, (__v8si)__B);
+429	}
+430	
+431	extern __inline int
+432	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+433	_mm256_movemask_epi8 (__m256i __A)
+434	{
+435	  return __builtin_ia32_pmovmskb256 ((__v32qi)__A);
+   0x0000000000001639 <+25>:	be 20 00 00 00	mov    $0x20,%esi
+   0x000000000000163e <+30>:	c5 fd d7 f8	vpmovmskb %ymm0,%edi
+
+ex2b.c:
+15	    total += __builtin_popcount(block & (block >> 1U));
+   0x0000000000001642 <+34>:	89 f8	mov    %edi,%eax
+   0x0000000000001644 <+36>:	d1 e8	shr    %eax
+   0x0000000000001646 <+38>:	21 f8	and    %edi,%eax
+   0x0000000000001648 <+40>:	f3 0f b8 c0	popcnt %eax,%eax
+
+17	      total += last_bit & block;
+18	    }
+19	    last_bit = block >> 31U;
+   0x000000000000164c <+44>:	c1 ef 1f	shr    $0x1f,%edi
+
+12	  for (uint64_t i = 0; i < size * 2; i += 32) {
+   0x000000000000164f <+47>:	49 83 f9 20	cmp    $0x20,%r9
+   0x0000000000001653 <+51>:	76 3b	jbe    0x1690 <count_pairs+112>
+   0x0000000000001655 <+53>:	0f 1f 00	nopl   (%rax)
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/avx2intrin.h:
+233	  return (__m256i) ((__v32qi)__A == (__v32qi)__B);
+   0x0000000000001658 <+56>:	c4 c1 75 74 04 30	vpcmpeqb (%r8,%rsi,1),%ymm1,%ymm0
+
+234	}
+235	
+236	extern __inline __m256i
+237	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+238	_mm256_cmpeq_epi16 (__m256i __A, __m256i __B)
+239	{
+240	  return (__m256i) ((__v16hi)__A == (__v16hi)__B);
+241	}
+242	
+243	extern __inline __m256i
+244	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+245	_mm256_cmpeq_epi32 (__m256i __A, __m256i __B)
+246	{
+247	  return (__m256i) ((__v8si)__A == (__v8si)__B);
+248	}
+249	
+250	extern __inline __m256i
+251	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+252	_mm256_cmpeq_epi64 (__m256i __A, __m256i __B)
+253	{
+254	  return (__m256i) ((__v4di)__A == (__v4di)__B);
+255	}
+256	
+257	extern __inline __m256i
+258	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+259	_mm256_cmpgt_epi8 (__m256i __A, __m256i __B)
+260	{
+261	  return (__m256i) ((__v32qs)__A > (__v32qs)__B);
+262	}
+263	
+264	extern __inline __m256i
+265	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+266	_mm256_cmpgt_epi16 (__m256i __A, __m256i __B)
+267	{
+268	  return (__m256i) ((__v16hi)__A > (__v16hi)__B);
+269	}
+270	
+271	extern __inline __m256i
+272	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+273	_mm256_cmpgt_epi32 (__m256i __A, __m256i __B)
+274	{
+275	  return (__m256i) ((__v8si)__A > (__v8si)__B);
+276	}
+277	
+278	extern __inline __m256i
+279	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+280	_mm256_cmpgt_epi64 (__m256i __A, __m256i __B)
+281	{
+282	  return (__m256i) ((__v4di)__A > (__v4di)__B);
+283	}
+284	
+285	extern __inline __m256i
+286	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+287	_mm256_hadd_epi16 (__m256i __X, __m256i __Y)
+288	{
+289	  return (__m256i) __builtin_ia32_phaddw256 ((__v16hi)__X,
+290						     (__v16hi)__Y);
+291	}
+292	
+293	extern __inline __m256i
+294	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+295	_mm256_hadd_epi32 (__m256i __X, __m256i __Y)
+296	{
+297	  return (__m256i) __builtin_ia32_phaddd256 ((__v8si)__X, (__v8si)__Y);
+298	}
+299	
+300	extern __inline __m256i
+301	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+302	_mm256_hadds_epi16 (__m256i __X, __m256i __Y)
+303	{
+304	  return (__m256i) __builtin_ia32_phaddsw256 ((__v16hi)__X,
+305						      (__v16hi)__Y);
+306	}
+307	
+308	extern __inline __m256i
+309	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+310	_mm256_hsub_epi16 (__m256i __X, __m256i __Y)
+311	{
+312	  return (__m256i) __builtin_ia32_phsubw256 ((__v16hi)__X,
+313						     (__v16hi)__Y);
+314	}
+315	
+316	extern __inline __m256i
+317	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+318	_mm256_hsub_epi32 (__m256i __X, __m256i __Y)
+319	{
+320	  return (__m256i) __builtin_ia32_phsubd256 ((__v8si)__X, (__v8si)__Y);
+321	}
+322	
+323	extern __inline __m256i
+324	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+325	_mm256_hsubs_epi16 (__m256i __X, __m256i __Y)
+326	{
+327	  return (__m256i) __builtin_ia32_phsubsw256 ((__v16hi)__X,
+328						      (__v16hi)__Y);
+329	}
+330	
+331	extern __inline __m256i
+332	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+333	_mm256_maddubs_epi16 (__m256i __X, __m256i __Y)
+334	{
+335	  return (__m256i) __builtin_ia32_pmaddubsw256 ((__v32qi)__X,
+336							(__v32qi)__Y);
+337	}
+338	
+339	extern __inline __m256i
+340	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+341	_mm256_madd_epi16 (__m256i __A, __m256i __B)
+342	{
+343	  return (__m256i)__builtin_ia32_pmaddwd256 ((__v16hi)__A,
+344						     (__v16hi)__B);
+345	}
+346	
+347	extern __inline __m256i
+348	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+349	_mm256_max_epi8 (__m256i __A, __m256i __B)
+350	{
+351	  return (__m256i)__builtin_ia32_pmaxsb256 ((__v32qi)__A, (__v32qi)__B);
+352	}
+353	
+354	extern __inline __m256i
+355	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+356	_mm256_max_epi16 (__m256i __A, __m256i __B)
+357	{
+358	  return (__m256i)__builtin_ia32_pmaxsw256 ((__v16hi)__A, (__v16hi)__B);
+359	}
+360	
+361	extern __inline __m256i
+362	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+363	_mm256_max_epi32 (__m256i __A, __m256i __B)
+364	{
+365	  return (__m256i)__builtin_ia32_pmaxsd256 ((__v8si)__A, (__v8si)__B);
+366	}
+367	
+368	extern __inline __m256i
+369	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+370	_mm256_max_epu8 (__m256i __A, __m256i __B)
+371	{
+372	  return (__m256i)__builtin_ia32_pmaxub256 ((__v32qi)__A, (__v32qi)__B);
+373	}
+374	
+375	extern __inline __m256i
+376	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+377	_mm256_max_epu16 (__m256i __A, __m256i __B)
+378	{
+379	  return (__m256i)__builtin_ia32_pmaxuw256 ((__v16hi)__A, (__v16hi)__B);
+380	}
+381	
+382	extern __inline __m256i
+383	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+384	_mm256_max_epu32 (__m256i __A, __m256i __B)
+385	{
+386	  return (__m256i)__builtin_ia32_pmaxud256 ((__v8si)__A, (__v8si)__B);
+387	}
+388	
+389	extern __inline __m256i
+390	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+391	_mm256_min_epi8 (__m256i __A, __m256i __B)
+392	{
+393	  return (__m256i)__builtin_ia32_pminsb256 ((__v32qi)__A, (__v32qi)__B);
+394	}
+395	
+396	extern __inline __m256i
+397	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+398	_mm256_min_epi16 (__m256i __A, __m256i __B)
+399	{
+400	  return (__m256i)__builtin_ia32_pminsw256 ((__v16hi)__A, (__v16hi)__B);
+401	}
+402	
+403	extern __inline __m256i
+404	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+405	_mm256_min_epi32 (__m256i __A, __m256i __B)
+406	{
+407	  return (__m256i)__builtin_ia32_pminsd256 ((__v8si)__A, (__v8si)__B);
+408	}
+409	
+410	extern __inline __m256i
+411	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+412	_mm256_min_epu8 (__m256i __A, __m256i __B)
+413	{
+414	  return (__m256i)__builtin_ia32_pminub256 ((__v32qi)__A, (__v32qi)__B);
+415	}
+416	
+417	extern __inline __m256i
+418	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+419	_mm256_min_epu16 (__m256i __A, __m256i __B)
+420	{
+421	  return (__m256i)__builtin_ia32_pminuw256 ((__v16hi)__A, (__v16hi)__B);
+422	}
+423	
+424	extern __inline __m256i
+425	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+426	_mm256_min_epu32 (__m256i __A, __m256i __B)
+427	{
+428	  return (__m256i)__builtin_ia32_pminud256 ((__v8si)__A, (__v8si)__B);
+429	}
+430	
+431	extern __inline int
+432	__attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+433	_mm256_movemask_epi8 (__m256i __A)
+434	{
+435	  return __builtin_ia32_pmovmskb256 ((__v32qi)__A);
+   0x000000000000165e <+62>:	c5 fd d7 c8	vpmovmskb %ymm0,%ecx
+
+ex2b.c:
+15	    total += __builtin_popcount(block & (block >> 1U));
+   0x0000000000001662 <+66>:	89 ca	mov    %ecx,%edx
+   0x0000000000001664 <+68>:	d1 ea	shr    %edx
+   0x0000000000001666 <+70>:	21 ca	and    %ecx,%edx
+   0x0000000000001668 <+72>:	41 89 ca	mov    %ecx,%r10d
+   0x000000000000166b <+75>:	f3 0f b8 d2	popcnt %edx,%edx
+   0x000000000000166f <+79>:	41 83 e2 01	and    $0x1,%r10d
+   0x0000000000001673 <+83>:	48 01 d0	add    %rdx,%rax
+
+16	    if (last_bit) {
+   0x0000000000001676 <+86>:	48 89 c2	mov    %rax,%rdx
+   0x0000000000001679 <+89>:	4c 01 d0	add    %r10,%rax
+   0x000000000000167c <+92>:	85 ff	test   %edi,%edi
+   0x000000000000167e <+94>:	48 0f 44 c2	cmove  %rdx,%rax
+
+17	      total += last_bit & block;
+18	    }
+19	    last_bit = block >> 31U;
+   0x0000000000001682 <+98>:	89 cf	mov    %ecx,%edi
+   0x0000000000001684 <+100>:	48 83 c6 20	add    $0x20,%rsi
+   0x0000000000001688 <+104>:	c1 ef 1f	shr    $0x1f,%edi
+
+12	  for (uint64_t i = 0; i < size * 2; i += 32) {
+   0x000000000000168b <+107>:	49 39 f1	cmp    %rsi,%r9
+   0x000000000000168e <+110>:	77 c8	ja     0x1658 <count_pairs+56>
+   0x0000000000001690 <+112>:	c5 f8 77	vzeroupper 
+   0x0000000000001693 <+115>:	c3	retq   
+   0x0000000000001694 <+116>:	0f 1f 40 00	nopl   0x0(%rax)
+   0x0000000000001698 <+120>:	31 c0	xor    %eax,%eax
+   0x000000000000169a <+122>:	c5 f8 77	vzeroupper 
+   0x000000000000169d <+125>:	c3	retq   
+End of assembler dump.

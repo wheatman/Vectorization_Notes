@@ -1,0 +1,182 @@
+Dump of assembler code for function count_pairs:
+ex1a.c:
+7	count_pairs(uint16_t *data, uint64_t size, uint8_t target) {
+   0x0000000000001620 <+0>:	f3 0f 1e fa	endbr64 
+
+8	  uint64_t total = 0;
+9	  uint16_t check = target | (target << 8U);
+   0x0000000000001624 <+4>:	41 89 d0	mov    %edx,%r8d
+   0x0000000000001627 <+7>:	41 c1 e0 08	shl    $0x8,%r8d
+   0x000000000000162b <+11>:	0f b6 d2	movzbl %dl,%edx
+   0x000000000000162e <+14>:	41 09 d0	or     %edx,%r8d
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x0000000000001631 <+17>:	48 85 f6	test   %rsi,%rsi
+   0x0000000000001634 <+20>:	0f 84 ee 01 00 00	je     0x1828 <count_pairs+520>
+   0x000000000000163a <+26>:	48 8d 46 ff	lea    -0x1(%rsi),%rax
+   0x000000000000163e <+30>:	48 83 f8 0e	cmp    $0xe,%rax
+   0x0000000000001642 <+34>:	0f 86 e3 01 00 00	jbe    0x182b <count_pairs+523>
+   0x0000000000001648 <+40>:	48 89 f2	mov    %rsi,%rdx
+   0x000000000000164b <+43>:	48 c1 ea 04	shr    $0x4,%rdx
+   0x000000000000164f <+47>:	48 c1 e2 05	shl    $0x5,%rdx
+   0x0000000000001653 <+51>:	c4 e2 7d 79 25 98 0a 00 00	vpbroadcastw 0xa98(%rip),%ymm4        # 0x20f4
+   0x000000000000165c <+60>:	62 d2 7d 28 7b e8	vpbroadcastw %r8d,%ymm5
+   0x0000000000001662 <+66>:	48 89 f8	mov    %rdi,%rax
+   0x0000000000001665 <+69>:	48 01 fa	add    %rdi,%rdx
+   0x0000000000001668 <+72>:	c5 e1 ef db	vpxor  %xmm3,%xmm3,%xmm3
+   0x000000000000166c <+76>:	0f 1f 40 00	nopl   0x0(%rax)
+
+11	    total += (data[i] == check);
+   0x0000000000001670 <+80>:	c5 d5 75 00	vpcmpeqw (%rax),%ymm5,%ymm0
+   0x0000000000001674 <+84>:	48 83 c0 20	add    $0x20,%rax
+   0x0000000000001678 <+88>:	c5 fd db c4	vpand  %ymm4,%ymm0,%ymm0
+   0x000000000000167c <+92>:	c4 e2 7d 33 c8	vpmovzxwd %xmm0,%ymm1
+   0x0000000000001681 <+97>:	c4 e3 7d 39 c0 01	vextracti128 $0x1,%ymm0,%xmm0
+   0x0000000000001687 <+103>:	c4 e2 7d 33 c0	vpmovzxwd %xmm0,%ymm0
+   0x000000000000168c <+108>:	c4 e2 7d 35 d0	vpmovzxdq %xmm0,%ymm2
+   0x0000000000001691 <+113>:	c4 e3 7d 39 c0 01	vextracti128 $0x1,%ymm0,%xmm0
+   0x0000000000001697 <+119>:	c4 e2 7d 35 c0	vpmovzxdq %xmm0,%ymm0
+   0x000000000000169c <+124>:	c5 ed d4 c0	vpaddq %ymm0,%ymm2,%ymm0
+   0x00000000000016a0 <+128>:	c4 e2 7d 35 d1	vpmovzxdq %xmm1,%ymm2
+   0x00000000000016a5 <+133>:	c4 e3 7d 39 c9 01	vextracti128 $0x1,%ymm1,%xmm1
+   0x00000000000016ab <+139>:	c4 e2 7d 35 c9	vpmovzxdq %xmm1,%ymm1
+   0x00000000000016b0 <+144>:	c5 ed d4 c9	vpaddq %ymm1,%ymm2,%ymm1
+   0x00000000000016b4 <+148>:	c5 fd d4 c1	vpaddq %ymm1,%ymm0,%ymm0
+   0x00000000000016b8 <+152>:	c5 e5 d4 d8	vpaddq %ymm0,%ymm3,%ymm3
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x00000000000016bc <+156>:	48 39 d0	cmp    %rdx,%rax
+   0x00000000000016bf <+159>:	75 af	jne    0x1670 <count_pairs+80>
+   0x00000000000016c1 <+161>:	c5 f9 6f c3	vmovdqa %xmm3,%xmm0
+   0x00000000000016c5 <+165>:	62 f3 fd 28 39 db 01	vextracti64x2 $0x1,%ymm3,%xmm3
+   0x00000000000016cc <+172>:	c5 f9 d4 c3	vpaddq %xmm3,%xmm0,%xmm0
+   0x00000000000016d0 <+176>:	c5 f1 73 d8 08	vpsrldq $0x8,%xmm0,%xmm1
+   0x00000000000016d5 <+181>:	c5 f9 d4 c1	vpaddq %xmm1,%xmm0,%xmm0
+   0x00000000000016d9 <+185>:	48 89 f1	mov    %rsi,%rcx
+   0x00000000000016dc <+188>:	c4 e1 f9 7e c0	vmovq  %xmm0,%rax
+   0x00000000000016e1 <+193>:	48 83 e1 f0	and    $0xfffffffffffffff0,%rcx
+   0x00000000000016e5 <+197>:	40 f6 c6 0f	test   $0xf,%sil
+   0x00000000000016e9 <+201>:	0f 84 45 01 00 00	je     0x1834 <count_pairs+532>
+   0x00000000000016ef <+207>:	c5 f8 77	vzeroupper 
+   0x00000000000016f2 <+210>:	49 89 f1	mov    %rsi,%r9
+   0x00000000000016f5 <+213>:	49 29 c9	sub    %rcx,%r9
+   0x00000000000016f8 <+216>:	49 8d 51 ff	lea    -0x1(%r9),%rdx
+   0x00000000000016fc <+220>:	48 83 fa 06	cmp    $0x6,%rdx
+   0x0000000000001700 <+224>:	76 75	jbe    0x1777 <count_pairs+343>
+
+11	    total += (data[i] == check);
+   0x0000000000001702 <+226>:	62 d2 7d 08 7b c0	vpbroadcastw %r8d,%xmm0
+   0x0000000000001708 <+232>:	c5 f9 75 04 4f	vpcmpeqw (%rdi,%rcx,2),%xmm0,%xmm0
+   0x000000000000170d <+237>:	c4 e2 79 79 0d de 09 00 00	vpbroadcastw 0x9de(%rip),%xmm1        # 0x20f4
+   0x0000000000001716 <+246>:	c5 f9 db c1	vpand  %xmm1,%xmm0,%xmm0
+   0x000000000000171a <+250>:	c4 e2 79 33 d0	vpmovzxwd %xmm0,%xmm2
+   0x000000000000171f <+255>:	c4 e2 79 35 ca	vpmovzxdq %xmm2,%xmm1
+   0x0000000000001724 <+260>:	c5 f9 73 d8 08	vpsrldq $0x8,%xmm0,%xmm0
+   0x0000000000001729 <+265>:	c5 e9 73 da 08	vpsrldq $0x8,%xmm2,%xmm2
+   0x000000000000172e <+270>:	c4 e2 79 33 c0	vpmovzxwd %xmm0,%xmm0
+   0x0000000000001733 <+275>:	c4 e2 79 35 d2	vpmovzxdq %xmm2,%xmm2
+   0x0000000000001738 <+280>:	c5 f1 d4 ca	vpaddq %xmm2,%xmm1,%xmm1
+   0x000000000000173c <+284>:	c4 e2 79 35 d0	vpmovzxdq %xmm0,%xmm2
+   0x0000000000001741 <+289>:	c5 f9 73 d8 08	vpsrldq $0x8,%xmm0,%xmm0
+   0x0000000000001746 <+294>:	c4 e2 79 35 c0	vpmovzxdq %xmm0,%xmm0
+   0x000000000000174b <+299>:	c5 e9 d4 c0	vpaddq %xmm0,%xmm2,%xmm0
+   0x000000000000174f <+303>:	c5 f1 d4 c0	vpaddq %xmm0,%xmm1,%xmm0
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x0000000000001753 <+307>:	c5 f1 73 d8 08	vpsrldq $0x8,%xmm0,%xmm1
+   0x0000000000001758 <+312>:	c5 f9 d4 c1	vpaddq %xmm1,%xmm0,%xmm0
+   0x000000000000175c <+316>:	c4 e1 f9 7e c2	vmovq  %xmm0,%rdx
+   0x0000000000001761 <+321>:	48 01 d0	add    %rdx,%rax
+   0x0000000000001764 <+324>:	4c 89 ca	mov    %r9,%rdx
+   0x0000000000001767 <+327>:	48 83 e2 f8	and    $0xfffffffffffffff8,%rdx
+   0x000000000000176b <+331>:	48 01 d1	add    %rdx,%rcx
+   0x000000000000176e <+334>:	49 39 d1	cmp    %rdx,%r9
+   0x0000000000001771 <+337>:	0f 84 b3 00 00 00	je     0x182a <count_pairs+522>
+
+11	    total += (data[i] == check);
+   0x0000000000001777 <+343>:	45 31 c9	xor    %r9d,%r9d
+   0x000000000000177a <+346>:	66 44 39 04 4f	cmp    %r8w,(%rdi,%rcx,2)
+   0x000000000000177f <+351>:	41 0f 94 c1	sete   %r9b
+   0x0000000000001783 <+355>:	4c 01 c8	add    %r9,%rax
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x0000000000001786 <+358>:	4c 8d 49 01	lea    0x1(%rcx),%r9
+   0x000000000000178a <+362>:	48 8d 14 09	lea    (%rcx,%rcx,1),%rdx
+   0x000000000000178e <+366>:	4c 39 ce	cmp    %r9,%rsi
+   0x0000000000001791 <+369>:	0f 86 93 00 00 00	jbe    0x182a <count_pairs+522>
+
+11	    total += (data[i] == check);
+   0x0000000000001797 <+375>:	45 31 c9	xor    %r9d,%r9d
+   0x000000000000179a <+378>:	66 44 39 44 17 02	cmp    %r8w,0x2(%rdi,%rdx,1)
+   0x00000000000017a0 <+384>:	41 0f 94 c1	sete   %r9b
+   0x00000000000017a4 <+388>:	4c 01 c8	add    %r9,%rax
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x00000000000017a7 <+391>:	4c 8d 49 02	lea    0x2(%rcx),%r9
+   0x00000000000017ab <+395>:	49 39 f1	cmp    %rsi,%r9
+   0x00000000000017ae <+398>:	73 7a	jae    0x182a <count_pairs+522>
+
+11	    total += (data[i] == check);
+   0x00000000000017b0 <+400>:	45 31 c9	xor    %r9d,%r9d
+   0x00000000000017b3 <+403>:	66 44 39 44 17 04	cmp    %r8w,0x4(%rdi,%rdx,1)
+   0x00000000000017b9 <+409>:	41 0f 94 c1	sete   %r9b
+   0x00000000000017bd <+413>:	4c 01 c8	add    %r9,%rax
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x00000000000017c0 <+416>:	4c 8d 49 03	lea    0x3(%rcx),%r9
+   0x00000000000017c4 <+420>:	4c 39 ce	cmp    %r9,%rsi
+   0x00000000000017c7 <+423>:	76 61	jbe    0x182a <count_pairs+522>
+
+11	    total += (data[i] == check);
+   0x00000000000017c9 <+425>:	45 31 c9	xor    %r9d,%r9d
+   0x00000000000017cc <+428>:	66 44 39 44 17 06	cmp    %r8w,0x6(%rdi,%rdx,1)
+   0x00000000000017d2 <+434>:	41 0f 94 c1	sete   %r9b
+   0x00000000000017d6 <+438>:	4c 01 c8	add    %r9,%rax
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x00000000000017d9 <+441>:	4c 8d 49 04	lea    0x4(%rcx),%r9
+   0x00000000000017dd <+445>:	4c 39 ce	cmp    %r9,%rsi
+   0x00000000000017e0 <+448>:	76 48	jbe    0x182a <count_pairs+522>
+
+11	    total += (data[i] == check);
+   0x00000000000017e2 <+450>:	45 31 c9	xor    %r9d,%r9d
+   0x00000000000017e5 <+453>:	66 44 39 44 17 08	cmp    %r8w,0x8(%rdi,%rdx,1)
+   0x00000000000017eb <+459>:	41 0f 94 c1	sete   %r9b
+   0x00000000000017ef <+463>:	4c 01 c8	add    %r9,%rax
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x00000000000017f2 <+466>:	4c 8d 49 05	lea    0x5(%rcx),%r9
+   0x00000000000017f6 <+470>:	4c 39 ce	cmp    %r9,%rsi
+   0x00000000000017f9 <+473>:	76 2f	jbe    0x182a <count_pairs+522>
+
+11	    total += (data[i] == check);
+   0x00000000000017fb <+475>:	45 31 c9	xor    %r9d,%r9d
+   0x00000000000017fe <+478>:	66 44 39 44 17 0a	cmp    %r8w,0xa(%rdi,%rdx,1)
+   0x0000000000001804 <+484>:	41 0f 94 c1	sete   %r9b
+   0x0000000000001808 <+488>:	48 83 c1 06	add    $0x6,%rcx
+   0x000000000000180c <+492>:	4c 01 c8	add    %r9,%rax
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x000000000000180f <+495>:	48 39 ce	cmp    %rcx,%rsi
+   0x0000000000001812 <+498>:	76 16	jbe    0x182a <count_pairs+522>
+
+11	    total += (data[i] == check);
+   0x0000000000001814 <+500>:	66 44 39 44 17 0c	cmp    %r8w,0xc(%rdi,%rdx,1)
+   0x000000000000181a <+506>:	0f 94 c2	sete   %dl
+   0x000000000000181d <+509>:	0f b6 d2	movzbl %dl,%edx
+   0x0000000000001820 <+512>:	48 01 d0	add    %rdx,%rax
+
+10	  for (uint64_t i = 0; i < size; i++) {
+   0x0000000000001823 <+515>:	c3	retq   
+   0x0000000000001824 <+516>:	0f 1f 40 00	nopl   0x0(%rax)
+   0x0000000000001828 <+520>:	31 c0	xor    %eax,%eax
+
+12	  }
+13	  return total;
+   0x000000000000182a <+522>:	c3	retq   
+   0x000000000000182b <+523>:	31 c9	xor    %ecx,%ecx
+   0x000000000000182d <+525>:	31 c0	xor    %eax,%eax
+   0x000000000000182f <+527>:	e9 be fe ff ff	jmpq   0x16f2 <count_pairs+210>
+   0x0000000000001834 <+532>:	c5 f8 77	vzeroupper 
+   0x0000000000001837 <+535>:	c3	retq   
+End of assembler dump.
