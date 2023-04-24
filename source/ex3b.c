@@ -29,7 +29,7 @@ decode_return Decode(const uint8_t *loc) {
   // extract the top bit from each byte
   uint64_t mask = _pext_u64(chunks, 0x8080808080808080UL);
 
-  // find the first bit that is 0 which corosponds to how long the compressed integer is
+  // find the first bit that is 0 which corresponds to how long the compressed integer is
   int32_t index = __tzcnt_u64(~mask);
 
   // extract the data bits 

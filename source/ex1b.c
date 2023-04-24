@@ -5,9 +5,9 @@
 
 uint64_t __attribute__((noinline))
 count_pairs(uint16_t *data, uint64_t size, uint8_t target) {
-  // tell the compilier that data is aligned to 32 bytes
+  // tell the compiler that data is aligned to 32 bytes
   data = __builtin_assume_aligned(data, 32);
-  // tell the compilier that size is a multiple of 32
+  // tell the compiler that size is a multiple of 32
   size = size & (~31U);
   uint64_t total = 0;
   uint16_t check = target | (target << 8U);

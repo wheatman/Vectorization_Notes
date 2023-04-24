@@ -18,15 +18,19 @@ ex1_basic: ex1a.c helpers.h
 	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
 
 ex1_O3: ex1a.c helpers.h
-	$(CC) $(CFLAGS) -O3 -mno-sse  -o $@ ex1a.c
+	$(CC) $(CFLAGS) -O3 -mno-sse -o $@ ex1a.c
+	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
+
+ex1_O3_unroll: ex1a.c helpers.h
+	$(CC) $(CFLAGS) -O3 -mno-sse -funroll-loops -o $@ ex1a.c
 	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
 
 ex1_march_native: ex1a.c helpers.h
-	$(CC) $(CFLAGS) -O3 -march=native -o $@ ex1a.c
+	$(CC) $(CFLAGS) -O3 -march=native -funroll-loops -o $@ ex1a.c
 	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
 
 ex1_specify_alignment: ex1b.c helpers.h
-	$(CC) $(CFLAGS) -O3 -march=native -o $@ ex1b.c
+	$(CC) $(CFLAGS) -O3 -march=native -funroll-loops -o $@ ex1b.c
 	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
 
 ex1_manual: ex1c.c helpers.h
@@ -43,12 +47,16 @@ ex2_O3: ex2a.c helpers.h
 	$(CC) $(CFLAGS) -O3  -mno-sse -o $@ ex2a.c
 	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
 
+ex2_O3_unroll: ex2a.c helpers.h
+	$(CC) $(CFLAGS) -O3  -mno-sse -funroll-loops -o $@ ex2a.c
+	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
+
 ex2_march_native: ex2a.c helpers.h
-	$(CC) $(CFLAGS) -O3 -march=native -o $@ ex2a.c
+	$(CC) $(CFLAGS) -O3 -funroll-loops -march=native -o $@ ex2a.c
 	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
 
 ex2_manual: ex2b.c helpers.h
-	$(CC) $(CFLAGS) -O3 -march=native -o $@ ex2b.c
+	$(CC) $(CFLAGS) -O3 -funroll-loops -march=native -o $@ ex2b.c
 	gdb -batch -ex "disassemble/rs count_pairs" $@ > $@.dump
 
 
@@ -75,13 +83,15 @@ ex3_manual2: ex3c.c helpers.h
 
 
 clean:
-	rm -f ex1_basic ex1_O3 ex1_march_native ex1_specify_alignment ex1_manual ex2_basic ex2_O3 ex2_march_native ex2_manual perf.data perf.data.old ex3_basic ex3_O3 ex3_march_native ex3_manual1 ex3_manual2
+	rm -f ex1_basic ex1_O3 ex1_O3_unroll ex1_march_native ex1_specify_alignment ex1_manual ex2_basic ex2_O3 ex2_O3_unroll ex2_march_native ex2_manual perf.data perf.data.old ex3_basic ex3_O3 ex3_march_native ex3_manual1 ex3_manual2
 
-ex1: ex1_basic ex1_O3 ex1_march_native ex1_specify_alignment ex1_manual
+ex1: ex1_basic ex1_O3 ex1_O3_unroll ex1_march_native ex1_specify_alignment ex1_manual
 	@echo "### Solving with Aligned Pairs";
 	./ex1_basic $(BYTE) $(LOGN)
 	@echo "";
 	./ex1_O3 $(BYTE) $(LOGN)
+	@echo "";
+	./ex1_O3_unroll $(BYTE) $(LOGN)
 	@echo "";
 	./ex1_march_native $(BYTE) $(LOGN)
 	@echo "";
@@ -90,11 +100,13 @@ ex1: ex1_basic ex1_O3 ex1_march_native ex1_specify_alignment ex1_manual
 	./ex1_manual $(BYTE) $(LOGN)
 	@echo "";
 
-ex2: ex2_basic ex2_O3 ex2_march_native ex2_manual
+ex2: ex2_basic ex2_O3 ex2_O3_unroll ex2_march_native ex2_manual
 	@echo "### Solving with Unaligned Pairs";
 	./ex2_basic $(BYTE) $(LOGN)
 	@echo "";
 	./ex2_O3 $(BYTE) $(LOGN)
+	@echo "";
+	./ex2_O3_unroll $(BYTE) $(LOGN)
 	@echo "";
 	./ex2_march_native $(BYTE) $(LOGN)
 	@echo "";

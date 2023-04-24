@@ -1,7 +1,7 @@
 Dump of assembler code for function count_pairs:
 ex1b.c:
 7	count_pairs(uint16_t *data, uint64_t size, uint8_t target) {
-   0x0000000000001620 <+0>:	f3 0f 1e fa	endbr64 
+   0x00000000000019c0 <+0>:	f3 0f 1e fa	endbr64 
 
 8	  // tell the compilier that data is aligned to 32 bytes
 9	  data = __builtin_assume_aligned(data, 32);
@@ -9,51 +9,64 @@ ex1b.c:
 11	  size = size & (~31U);
 12	  uint64_t total = 0;
 13	  uint16_t check = target | (target << 8U);
-   0x0000000000001624 <+4>:	89 d1	mov    %edx,%ecx
-   0x0000000000001626 <+6>:	c1 e1 08	shl    $0x8,%ecx
-   0x0000000000001629 <+9>:	0f b6 d2	movzbl %dl,%edx
-   0x000000000000162c <+12>:	48 89 f0	mov    %rsi,%rax
-   0x000000000000162f <+15>:	09 d1	or     %edx,%ecx
+   0x00000000000019c4 <+4>:	89 d1	mov    %edx,%ecx
+   0x00000000000019c6 <+6>:	c1 e1 08	shl    $0x8,%ecx
+   0x00000000000019c9 <+9>:	0f b6 d2	movzbl %dl,%edx
+   0x00000000000019cc <+12>:	48 89 f0	mov    %rsi,%rax
+   0x00000000000019cf <+15>:	09 d1	or     %edx,%ecx
 
 14	  for (uint64_t i = 0; i < size; i++) {
-   0x0000000000001631 <+17>:	83 e0 e0	and    $0xffffffe0,%eax
-   0x0000000000001634 <+20>:	0f 84 8f 00 00 00	je     0x16c9 <count_pairs+169>
-   0x000000000000163a <+26>:	c4 e2 7d 79 2d b1 0a 00 00	vpbroadcastw 0xab1(%rip),%ymm5        # 0x20f4
-   0x0000000000001643 <+35>:	62 f2 7d 28 7b e1	vpbroadcastw %ecx,%ymm4
-   0x0000000000001649 <+41>:	48 8d 04 47	lea    (%rdi,%rax,2),%rax
-   0x000000000000164d <+45>:	c5 e1 ef db	vpxor  %xmm3,%xmm3,%xmm3
-   0x0000000000001651 <+49>:	0f 1f 80 00 00 00 00	nopl   0x0(%rax)
+   0x00000000000019d1 <+17>:	83 e0 e0	and    $0xffffffe0,%eax
+   0x00000000000019d4 <+20>:	0f 84 d6 00 00 00	je     0x1ab0 <count_pairs+240>
+   0x00000000000019da <+26>:	c4 e2 7d 79 25 11 07 00 00	vpbroadcastw 0x711(%rip),%ymm4        # 0x20f4
+   0x00000000000019e3 <+35>:	62 f2 7d 28 7b d9	vpbroadcastw %ecx,%ymm3
+   0x00000000000019e9 <+41>:	48 8d 04 47	lea    (%rdi,%rax,2),%rax
+   0x00000000000019ed <+45>:	c5 d1 ef ed	vpxor  %xmm5,%xmm5,%xmm5
 
 15	    total += (data[i] == check);
-   0x0000000000001658 <+56>:	c5 dd 75 07	vpcmpeqw (%rdi),%ymm4,%ymm0
-   0x000000000000165c <+60>:	48 83 c7 20	add    $0x20,%rdi
-   0x0000000000001660 <+64>:	c5 fd db c5	vpand  %ymm5,%ymm0,%ymm0
-   0x0000000000001664 <+68>:	c4 e2 7d 33 c8	vpmovzxwd %xmm0,%ymm1
-   0x0000000000001669 <+73>:	c4 e3 7d 39 c0 01	vextracti128 $0x1,%ymm0,%xmm0
-   0x000000000000166f <+79>:	c4 e2 7d 33 c0	vpmovzxwd %xmm0,%ymm0
-   0x0000000000001674 <+84>:	c4 e2 7d 35 d0	vpmovzxdq %xmm0,%ymm2
-   0x0000000000001679 <+89>:	c4 e3 7d 39 c0 01	vextracti128 $0x1,%ymm0,%xmm0
-   0x000000000000167f <+95>:	c4 e2 7d 35 c0	vpmovzxdq %xmm0,%ymm0
-   0x0000000000001684 <+100>:	c5 ed d4 c0	vpaddq %ymm0,%ymm2,%ymm0
-   0x0000000000001688 <+104>:	c4 e2 7d 35 d1	vpmovzxdq %xmm1,%ymm2
-   0x000000000000168d <+109>:	c4 e3 7d 39 c9 01	vextracti128 $0x1,%ymm1,%xmm1
-   0x0000000000001693 <+115>:	c4 e2 7d 35 c9	vpmovzxdq %xmm1,%ymm1
-   0x0000000000001698 <+120>:	c5 ed d4 c9	vpaddq %ymm1,%ymm2,%ymm1
-   0x000000000000169c <+124>:	c5 fd d4 c1	vpaddq %ymm1,%ymm0,%ymm0
-   0x00000000000016a0 <+128>:	c5 e5 d4 d8	vpaddq %ymm0,%ymm3,%ymm3
+   0x00000000000019f1 <+49>:	c5 e5 75 07	vpcmpeqw (%rdi),%ymm3,%ymm0
+   0x00000000000019f5 <+53>:	48 83 c7 40	add    $0x40,%rdi
+   0x00000000000019f9 <+57>:	c5 fd db d4	vpand  %ymm4,%ymm0,%ymm2
+   0x00000000000019fd <+61>:	c4 e2 7d 33 ca	vpmovzxwd %xmm2,%ymm1
+   0x0000000000001a02 <+66>:	c4 e3 7d 39 d6 01	vextracti128 $0x1,%ymm2,%xmm6
+   0x0000000000001a08 <+72>:	c5 e5 75 57 e0	vpcmpeqw -0x20(%rdi),%ymm3,%ymm2
+   0x0000000000001a0d <+77>:	c4 e2 7d 33 fe	vpmovzxwd %xmm6,%ymm7
+   0x0000000000001a12 <+82>:	c4 c3 7d 39 f9 01	vextracti128 $0x1,%ymm7,%xmm9
+   0x0000000000001a18 <+88>:	c5 ed db f4	vpand  %ymm4,%ymm2,%ymm6
+   0x0000000000001a1c <+92>:	c4 62 7d 35 c7	vpmovzxdq %xmm7,%ymm8
+   0x0000000000001a21 <+97>:	c4 42 7d 35 d1	vpmovzxdq %xmm9,%ymm10
+   0x0000000000001a26 <+102>:	c4 c3 7d 39 cd 01	vextracti128 $0x1,%ymm1,%xmm13
+   0x0000000000001a2c <+108>:	c4 e3 7d 39 f7 01	vextracti128 $0x1,%ymm6,%xmm7
+   0x0000000000001a32 <+114>:	c4 41 3d d4 da	vpaddq %ymm10,%ymm8,%ymm11
+   0x0000000000001a37 <+119>:	c4 62 7d 35 e1	vpmovzxdq %xmm1,%ymm12
+   0x0000000000001a3c <+124>:	c4 42 7d 35 f5	vpmovzxdq %xmm13,%ymm14
+   0x0000000000001a41 <+129>:	c4 e2 7d 33 ce	vpmovzxwd %xmm6,%ymm1
+   0x0000000000001a46 <+134>:	c4 62 7d 33 c7	vpmovzxwd %xmm7,%ymm8
+   0x0000000000001a4b <+139>:	c4 41 1d d4 fe	vpaddq %ymm14,%ymm12,%ymm15
+   0x0000000000001a50 <+144>:	c4 43 7d 39 c2 01	vextracti128 $0x1,%ymm8,%xmm10
+   0x0000000000001a56 <+150>:	c4 c3 7d 39 ce 01	vextracti128 $0x1,%ymm1,%xmm14
+   0x0000000000001a5c <+156>:	c4 c1 25 d4 c7	vpaddq %ymm15,%ymm11,%ymm0
+   0x0000000000001a61 <+161>:	c4 42 7d 35 c8	vpmovzxdq %xmm8,%ymm9
+   0x0000000000001a66 <+166>:	c4 42 7d 35 da	vpmovzxdq %xmm10,%ymm11
+   0x0000000000001a6b <+171>:	c4 62 7d 35 e9	vpmovzxdq %xmm1,%ymm13
+   0x0000000000001a70 <+176>:	c4 42 7d 35 fe	vpmovzxdq %xmm14,%ymm15
+   0x0000000000001a75 <+181>:	c5 d5 d4 e8	vpaddq %ymm0,%ymm5,%ymm5
+   0x0000000000001a79 <+185>:	c4 41 35 d4 e3	vpaddq %ymm11,%ymm9,%ymm12
+   0x0000000000001a7e <+190>:	c4 c1 15 d4 c7	vpaddq %ymm15,%ymm13,%ymm0
+   0x0000000000001a83 <+195>:	c5 9d d4 d0	vpaddq %ymm0,%ymm12,%ymm2
+   0x0000000000001a87 <+199>:	c5 d5 d4 ea	vpaddq %ymm2,%ymm5,%ymm5
 
 14	  for (uint64_t i = 0; i < size; i++) {
-   0x00000000000016a4 <+132>:	48 39 f8	cmp    %rdi,%rax
-   0x00000000000016a7 <+135>:	75 af	jne    0x1658 <count_pairs+56>
-   0x00000000000016a9 <+137>:	c5 f9 6f c3	vmovdqa %xmm3,%xmm0
-   0x00000000000016ad <+141>:	62 f3 fd 28 39 db 01	vextracti64x2 $0x1,%ymm3,%xmm3
-   0x00000000000016b4 <+148>:	c5 f9 d4 c3	vpaddq %xmm3,%xmm0,%xmm0
-   0x00000000000016b8 <+152>:	c5 f1 73 d8 08	vpsrldq $0x8,%xmm0,%xmm1
-   0x00000000000016bd <+157>:	c5 f9 d4 c1	vpaddq %xmm1,%xmm0,%xmm0
-   0x00000000000016c1 <+161>:	c4 e1 f9 7e c0	vmovq  %xmm0,%rax
+   0x0000000000001a8b <+203>:	48 39 f8	cmp    %rdi,%rax
+   0x0000000000001a8e <+206>:	0f 85 5d ff ff ff	jne    0x19f1 <count_pairs+49>
+   0x0000000000001a94 <+212>:	62 f3 fd 28 39 ec 01	vextracti64x2 $0x1,%ymm5,%xmm4
+   0x0000000000001a9b <+219>:	c5 d1 d4 f4	vpaddq %xmm4,%xmm5,%xmm6
+   0x0000000000001a9f <+223>:	c5 f1 73 de 08	vpsrldq $0x8,%xmm6,%xmm1
+   0x0000000000001aa4 <+228>:	c5 c9 d4 f9	vpaddq %xmm1,%xmm6,%xmm7
+   0x0000000000001aa8 <+232>:	c4 e1 f9 7e f8	vmovq  %xmm7,%rax
 
 16	  }
 17	  return total;
-   0x00000000000016c6 <+166>:	c5 f8 77	vzeroupper 
-   0x00000000000016c9 <+169>:	c3	retq   
+   0x0000000000001aad <+237>:	c5 f8 77	vzeroupper 
+   0x0000000000001ab0 <+240>:	c3	retq   
 End of assembler dump.

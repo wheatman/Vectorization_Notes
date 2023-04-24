@@ -11,7 +11,7 @@ typedef struct decode_return {
 
 decode_return Decode(const uint8_t *loc) {
   // first check the case if we only use 1 byte by checking the top bit of the first byte
-  // this is done becuase we need to special case what happens if we are 0
+  // this is done because we need to special case what happens if we are 0
   decode_return ret;
   if ((*loc & 0x80UL) == 0) {
     ret.old_size = *loc > 0;
