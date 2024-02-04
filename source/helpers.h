@@ -19,9 +19,22 @@ uint16_t *get_random_data(uint64_t size) {
 #else
   srand(0);
 #endif
-  uint16_t *data = (uint16_t *)memalign(32, size * sizeof(*data));
+  uint16_t *data = (uint16_t *)memalign(32, size * sizeof(*data) + 32);
   for (uint64_t i = 0; i < size; i++) {
     data[i] = rand();
+  }
+  return data;
+}
+
+static inline int *get_random_ints(uint64_t size) {
+#ifdef SEED
+  srand(SEED);
+#else
+  srand(0);
+#endif
+  int *data = (int *)memalign(32, size * sizeof(*data) + 32);
+  for (uint64_t i = 0; i < size; i++) {
+    data[i] = rand() % 0xFFFF;
   }
   return data;
 }

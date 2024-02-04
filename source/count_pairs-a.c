@@ -1,22 +1,14 @@
 #include "helpers.h"
-#include <immintrin.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-uint64_t __attribute__((noinline))
-count_pairs(uint8_t *data, uint64_t size, uint8_t target) {
-  uint64_t total = 0;
-  uint32_t last_bit = 0;
-  __m256i compare = _mm256_set1_epi8(target);
-  for (uint64_t i = 0; i < size * 2; i += 32) {
-    uint32_t block = _mm256_movemask_epi8(
-        _mm256_cmpeq_epi8(_mm256_load_si256((__m256i *)(data + i)), compare));
-    total += __builtin_popcount(block & (block >> 1U));
-    if (last_bit) {
-      total += last_bit & block;
-    }
-    last_bit = block >> 31U;
+unsigned long __attribute__((noinline))
+count_pairs(unsigned char *data, unsigned long size, unsigned char target) {
+  unsigned long total = 0;
+  unsigned short check = target | (target << 8U);
+  for (unsigned long i = 0; i < size * 2 - 1; i++) {
+    total += (load16(data + i) == check);
   }
   return total;
 }

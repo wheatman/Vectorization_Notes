@@ -1,0 +1,57 @@
+Dump of assembler code for function count_pairs:
+count_pairs-c.c:
+8	count_pairs(unsigned char *data, unsigned long size, unsigned char target) {
+   0x0000000000001450 <+0>:	48 01 f6	add    %rsi,%rsi
+
+9	  unsigned long total = 0;
+10	  unsigned short check = target | (target << 8U);
+11	  __m256i compare = _mm256_set1_epi16(target);
+12	  for (uint64_t i = 0; i < size * 2; i += 32) {
+   0x0000000000001453 <+3>:	74 4f	je     0x14a4 <count_pairs+84>
+   0x0000000000001455 <+5>:	c5 f9 6e c2	vmovd  %edx,%xmm0
+   0x0000000000001459 <+9>:	31 c0	xor    %eax,%eax
+   0x000000000000145b <+11>:	31 c9	xor    %ecx,%ecx
+   0x000000000000145d <+13>:	c4 e2 7d 79 c0	vpbroadcastw %xmm0,%ymm0
+   0x0000000000001462 <+18>:	66 2e 0f 1f 84 00 00 00 00 00	cs nopw 0x0(%rax,%rax,1)
+   0x000000000000146c <+28>:	0f 1f 40 00	nopl   0x0(%rax)
+
+14	        _mm256_cmpeq_epi16(_mm256_load_si256((__m256i *)(data + i)), compare));
+   0x0000000000001470 <+32>:	c5 fd 75 0c 0f	vpcmpeqw (%rdi,%rcx,1),%ymm0,%ymm1
+
+13	    uint32_t block1 = _mm256_movemask_epi8(
+   0x0000000000001475 <+37>:	c5 fd d7 d1	vpmovmskb %ymm1,%edx
+
+15	    uint32_t block2 = _mm256_movemask_epi8(_mm256_cmpeq_epi16(
+   0x0000000000001479 <+41>:	c5 fd 75 4c 0f 01	vpcmpeqw 0x1(%rdi,%rcx,1),%ymm0,%ymm1
+
+12	  for (uint64_t i = 0; i < size * 2; i += 32) {
+   0x000000000000147f <+47>:	48 83 c1 20	add    $0x20,%rcx
+
+16	        _mm256_loadu_si256((__m256i *)(data + i + 1)), compare));
+17	    total += __builtin_popcount(block1);
+   0x0000000000001483 <+51>:	f3 0f b8 d2	popcnt %edx,%edx
+
+15	    uint32_t block2 = _mm256_movemask_epi8(_mm256_cmpeq_epi16(
+   0x0000000000001487 <+55>:	c5 7d d7 c1	vpmovmskb %ymm1,%r8d
+
+16	        _mm256_loadu_si256((__m256i *)(data + i + 1)), compare));
+17	    total += __builtin_popcount(block1);
+   0x000000000000148b <+59>:	48 01 c2	add    %rax,%rdx
+
+18	    total += __builtin_popcount(block2);
+   0x000000000000148e <+62>:	31 c0	xor    %eax,%eax
+   0x0000000000001490 <+64>:	f3 41 0f b8 c0	popcnt %r8d,%eax
+   0x0000000000001495 <+69>:	48 01 d0	add    %rdx,%rax
+
+12	  for (uint64_t i = 0; i < size * 2; i += 32) {
+   0x0000000000001498 <+72>:	48 39 f1	cmp    %rsi,%rcx
+   0x000000000000149b <+75>:	72 d3	jb     0x1470 <count_pairs+32>
+
+19	  }
+20	  return total / 2;
+   0x000000000000149d <+77>:	48 d1 e8	shr    %rax
+   0x00000000000014a0 <+80>:	c5 f8 77	vzeroupper 
+   0x00000000000014a3 <+83>:	c3	ret    
+   0x00000000000014a4 <+84>:	31 c0	xor    %eax,%eax
+   0x00000000000014a6 <+86>:	c3	ret    
+End of assembler dump.
